@@ -190,6 +190,13 @@ export default function App() {
           body: params
         });
       }
+
+      // Track conversion in Meta Pixel
+      if (typeof (window as any).fbq === 'function') {
+        (window as any).fbq('track', 'Contact');
+        (window as any).fbq('track', 'Lead');
+      }
+
       setContactSuccess(true);
       setContactFormData({ firstName: '', lastName: '', zip: '', email: '', message: '' });
     } catch (error) {
@@ -231,6 +238,12 @@ export default function App() {
           body: params
         });
       }
+
+      // Track conversion in Meta Pixel
+      if (typeof (window as any).fbq === 'function') {
+        (window as any).fbq('track', 'Lead');
+      }
+
       setStep(2);
     } catch (error) {
       console.error("Error saving lead:", error);
