@@ -136,6 +136,8 @@ export default function App() {
     lastName: '',
     email: '',
     zip: '',
+    phone: '',
+    preferredContact: 'email',
     message: ''
   });
   const [contactFormData, setContactFormData] = useState({
@@ -143,6 +145,8 @@ export default function App() {
     lastName: '',
     zip: '',
     email: '',
+    phone: '',
+    preferredContact: 'email',
     message: ''
   });
   const [contactSuccess, setContactSuccess] = useState(false);
@@ -181,6 +185,8 @@ export default function App() {
         params.append('lastName', contactFormData.lastName);
         params.append('zip', contactFormData.zip);
         params.append('email', contactFormData.email);
+        params.append('phone', contactFormData.phone);
+        params.append('preferredContact', contactFormData.preferredContact);
         params.append('message', contactFormData.message);
         params.append('formSource', 'Contact Form Inquiry');
 
@@ -198,7 +204,7 @@ export default function App() {
       }
 
       setContactSuccess(true);
-      setContactFormData({ firstName: '', lastName: '', zip: '', email: '', message: '' });
+      setContactFormData({ firstName: '', lastName: '', zip: '', email: '', phone: '', preferredContact: 'email', message: '' });
     } catch (error) {
       console.error("Error saving contact inquiry:", error);
     } finally {
@@ -228,6 +234,8 @@ export default function App() {
         params.append('firstName', formData.firstName);
         params.append('lastName', formData.lastName);
         params.append('email', formData.email);
+        params.append('phone', formData.phone);
+        params.append('preferredContact', formData.preferredContact);
         params.append('zip', formData.zip);
         params.append('message', formData.message);
         params.append('formSource', 'Meta Ads Landing Page');
@@ -264,6 +272,8 @@ export default function App() {
     params.append('first_name', formData.firstName);
     params.append('last_name', formData.lastName);
     params.append('email', formData.email);
+    params.append('phone', formData.phone);
+    params.append('telephone', formData.phone);
     params.append('zip', formData.zip);
     params.append('zip_code', formData.zip);
     params.append('postal_code', formData.zip);
@@ -282,6 +292,8 @@ export default function App() {
     params.append('registration[first_name]', formData.firstName);
     params.append('registration[last_name]', formData.lastName);
     params.append('registration[email]', formData.email);
+    params.append('registration[phone]', formData.phone);
+    params.append('registration[telephone]', formData.phone);
     params.append('registration[zip]', formData.zip);
     params.append('registration[zip_code]', formData.zip);
     params.append('registration[postal_code]', formData.zip);
@@ -355,7 +367,7 @@ export default function App() {
               >
                 <h1 className="text-4xl md:text-7xl font-serif leading-[1.1] text-retreat-ink mb-4">
                   Love and Awareness:<br />
-                  <span className="italic">The Heart that Knows</span>
+                  <span className="italic font-light">The Heart that Knows</span>
                 </h1>
                 <p className="text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-retreat-olive/60">
                   Experienced and new practitioners welcome
@@ -491,7 +503,8 @@ export default function App() {
                           "June 8 - 14, 2026",
                           "Silent Meditation Retreat",
                           "Expert Guidance & Community",
-                          "Freshly Prepared Meals"
+                          "Lodging and Meals Included",
+                          "PRICES BEGIN AT $990"
                         ].map((text, i) => (
                           <li key={i} className={cn(
                             "flex items-center gap-3 text-sm font-medium uppercase tracking-widest",
@@ -506,8 +519,13 @@ export default function App() {
 
                     <div className="md:w-1/2 w-full">
                       <form onSubmit={handleStep1Submit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-red-800 col-span-2 ml-1">
+                          * required field
+                        </div>
                         <div className="space-y-1.5 col-span-2 md:col-span-1">
-                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">First Name</label>
+                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                            First Name <span className="text-red-800">*</span>
+                          </label>
                           <input 
                             required
                             name="firstName"
@@ -518,7 +536,9 @@ export default function App() {
                           />
                         </div>
                         <div className="space-y-1.5 col-span-2 md:col-span-1">
-                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">Last Name</label>
+                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                            Last Name <span className="text-red-800">*</span>
+                          </label>
                           <input 
                             required
                             name="lastName"
@@ -528,10 +548,46 @@ export default function App() {
                             className="w-full px-5 py-4 bg-retreat-cream/30 border border-retreat-olive/10 rounded-2xl focus:ring-2 focus:ring-retreat-olive/20 focus:border-retreat-olive outline-none transition-all placeholder:text-retreat-olive/30"
                           />
                         </div>
+
+                        {/* Preferred Contact Method */}
                         <div className="space-y-1.5 col-span-2">
-                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">Email Address</label>
+                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                            Preferred Contact Method <span className="text-red-800">*</span>
+                          </label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, preferredContact: 'email' }))}
+                              className={cn(
+                                "py-3 px-4 rounded-xl text-xs uppercase tracking-wider font-bold border transition-all",
+                                formData.preferredContact === 'email' 
+                                  ? "bg-retreat-olive text-white border-retreat-olive shadow-sm" 
+                                  : "bg-retreat-cream/20 text-retreat-olive/70 border-retreat-olive/10 hover:border-retreat-olive/30"
+                              )}
+                            >
+                              Email
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, preferredContact: 'phone' }))}
+                              className={cn(
+                                "py-3 px-4 rounded-xl text-xs uppercase tracking-wider font-bold border transition-all",
+                                formData.preferredContact === 'phone' 
+                                  ? "bg-retreat-olive text-white border-retreat-olive shadow-sm" 
+                                  : "bg-retreat-cream/20 text-retreat-olive/70 border-retreat-olive/10 hover:border-retreat-olive/30"
+                              )}
+                            >
+                              Phone
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5 col-span-2">
+                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                            Email Address {formData.preferredContact === 'email' && <span className="text-red-800">*</span>}
+                          </label>
                           <input 
-                            required
+                            required={formData.preferredContact === 'email'}
                             type="email"
                             name="email"
                             value={formData.email}
@@ -540,8 +596,26 @@ export default function App() {
                             className="w-full px-5 py-4 bg-retreat-cream/30 border border-retreat-olive/10 rounded-2xl focus:ring-2 focus:ring-retreat-olive/20 focus:border-retreat-olive outline-none transition-all placeholder:text-retreat-olive/30"
                           />
                         </div>
+
                         <div className="space-y-1.5 col-span-2">
-                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">ZIP Code</label>
+                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                            Phone Number {formData.preferredContact === 'phone' && <span className="text-red-800">*</span>}
+                          </label>
+                          <input 
+                            required={formData.preferredContact === 'phone'}
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            placeholder="(555) 000-0000"
+                            className="w-full px-5 py-4 bg-retreat-cream/30 border border-retreat-olive/10 rounded-2xl focus:ring-2 focus:ring-retreat-olive/20 focus:border-retreat-olive outline-none transition-all placeholder:text-retreat-olive/30"
+                          />
+                        </div>
+
+                        <div className="space-y-1.5 col-span-2">
+                          <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                            ZIP Code <span className="text-red-800">*</span>
+                          </label>
                           <input 
                             required
                             name="zip"
@@ -717,17 +791,67 @@ export default function App() {
                       className="w-full px-5 py-3 bg-white/50 border border-retreat-olive/10 rounded-xl focus:ring-2 focus:ring-retreat-olive/20 outline-none"
                     />
                   </div>
+
+                  {/* Preferred Contact Method Selector */}
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
-                      Email <span className="text-red-800">*</span>
+                      Preferred Contact Method <span className="text-red-800">*</span>
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setContactFormData(prev => ({ ...prev, preferredContact: 'email' }))}
+                        className={cn(
+                          "py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider font-bold border transition-all",
+                          contactFormData.preferredContact === 'email' 
+                            ? "bg-retreat-olive text-white border-retreat-olive shadow-sm" 
+                            : "bg-white/50 text-retreat-olive/70 border-retreat-olive/10 hover:border-retreat-olive/30"
+                        )}
+                      >
+                        Email
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setContactFormData(prev => ({ ...prev, preferredContact: 'phone' }))}
+                        className={cn(
+                          "py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider font-bold border transition-all",
+                          contactFormData.preferredContact === 'phone' 
+                            ? "bg-retreat-olive text-white border-retreat-olive shadow-sm" 
+                            : "bg-white/50 text-retreat-olive/70 border-retreat-olive/10 hover:border-retreat-olive/30"
+                        )}
+                      >
+                        Phone
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                      Email address {contactFormData.preferredContact === 'email' && <span className="text-red-800">*</span>}
                     </label>
                     <input 
-                      required
+                      required={contactFormData.preferredContact === 'email'}
                       type="email"
                       name="email"
                       value={contactFormData.email}
                       onChange={handleContactInputChange}
                       placeholder="email@example.com"
+                      className="w-full px-5 py-3 bg-white/50 border border-retreat-olive/10 rounded-xl focus:ring-2 focus:ring-retreat-olive/20 outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-retreat-olive ml-1">
+                      Phone Number {contactFormData.preferredContact === 'phone' && <span className="text-red-800">*</span>}
+                    </label>
+                    <input 
+                      required={contactFormData.preferredContact === 'phone'}
+                      type="tel"
+                      name="phone"
+                      value={contactFormData.phone}
+                      onChange={handleContactInputChange}
+                      placeholder="(555) 000-0000"
                       className="w-full px-5 py-3 bg-white/50 border border-retreat-olive/10 rounded-xl focus:ring-2 focus:ring-retreat-olive/20 outline-none"
                     />
                   </div>

@@ -31,16 +31,20 @@ function doPost(e) {
     const firstName = data.firstName || data.first_name || '';
     const lastName = data.lastName || data.last_name || '';
     const email = data.email || '';
+    const phone = data.phone || '';
+    const preferredContact = data.preferredContact || '';
     const zip = data.zip || data.zip_code || '';
     const message = data.message || '';
     const source = data.formSource || 'Landing Page';
     
-    // Add row: Timestamp, First, Last, Email, ZIP, Message, Source
+    // Add row: Timestamp, First, Last, Email, Phone, Preferred Contact, ZIP, Message, Source
     sheet.appendRow([
       new Date(),
       firstName,
       lastName,
       email,
+      phone,
+      preferredContact,
       zip,
       message,
       source
